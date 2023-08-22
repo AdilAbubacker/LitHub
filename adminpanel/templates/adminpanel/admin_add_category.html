@@ -1,0 +1,52 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block content %}
+            <div class="container-fluid pt-4 px-4">
+                <div class="row g-4 d-flex justify-content-center">
+                    <div class="col-sm-12 col-xl-6 ">
+                        <div class="bg-light rounded h-100 p-4">
+                            <h6 class="mb-4">Add category</h6>
+                            <form class="login-form" action="" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="id_name" name="name"
+                                        placeholder="Category Name">
+                                    <label for="id_name">Name</label>
+                                </div>
+
+                                <div class="form-floating mb-3">
+                                    <textarea class="form-control" placeholder="Leave a comment here"
+                                        id="id_description" name="description" style="height: 150px;"></textarea>
+                                    <label for="id_description">Description (optional)</label>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="id_image" class="form-label">Image</label>
+                                    <input type="file" class="form-control" id="id_image" name="image" onchange="previewImage(event)">
+                                    <img id="preview" src="#" alt="Category Image Preview" width="100" height="100" style="display: none;">
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <script>
+                function previewImage(event) {
+                    var input = event.target;
+                    var reader = new FileReader();
+
+                    reader.onload = function() {
+                        var imgElement = document.getElementById('preview');
+                        imgElement.src = reader.result;
+                        imgElement.style.display = 'block';
+                    };
+
+                    reader.readAsDataURL(input.files[0]);
+                }
+            </script>
+
+
+{% endblock content %}

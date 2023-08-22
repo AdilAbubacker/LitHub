@@ -1,0 +1,72 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block content %}
+                    <div class="col-sm-12">
+                        <div class="bg-white rounded h-100 p-4">
+                             <div class="d-flex justify-content-between mx-2 my-1 ml">
+                                <div><h5 class="mb-4">Variants</h5></div>
+                                <div class="ml-5 pl-5"><a  href="{% url 'add_variant' book_id %}" class="btn btn-sm btn-primary rounded-pill">+ Add Variant</a></div>
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Cover Type</th>
+                                        <th scope="col">Language</th>
+                                        <th scope="col">Stock</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Offer Price</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for variant in variants %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td><img src="{{ variant.image.url }}" alt="" width="30" height="40"></td>
+                                        <td>{{ variant.id }}</td>
+                                        <td>{{ variant.book }}</td>
+                                        <td>{{ variant.cover_type }}</td>
+                                        <td>{{ variant.language }}</td>
+                                        <td>{{ variant.stock }}</td>
+                                        <td>{{ variant.price }}</td>
+                                        <td>{{ variant.offer_price }}</td>
+                                        <td>
+                                            <a  href="{% url 'edit_variant' variant.id book_id %}" class="btn btn-outline-info m-1">Edit</a>
+                                            {% if variant.is_active %}
+                                                <a  href="{% url 'disable_variant' variant.id book_id %}" class="btn btn-outline-danger m-1">Disable</a>
+                                            {% else %}
+                                                 <a  href="{% url 'enable_variant' variant.id book_id %}" class="btn btn-outline-success m-1">Enable</a>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="pagination d-flex justify-content-end me-5 pe-5">
+                            {% if variants.has_previous %}
+                                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                                <a class="btn btn-outline-info mb-4" href="?page={{ variants.previous_page_number }}">Prev</a>
+                            {% endif %}
+
+                            {% for num in variants.paginator.page_range %}
+                                {% if variants.number == num %}
+                                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                                {% elif num > variants.number|add:'-3' and num < variants.number|add:'3' %}
+                                     <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                                {% endif %}
+                            {% endfor %}
+
+                             {% if variants.has_next %}
+                                <a class="btn btn-outline-info mb-4" href="?page={{ variants.next_page_number }}">Next</a>
+                                <a class="btn btn-outline-info mb-4" href="?page={{ variants.paginator.num_pages}}">Last</a>
+                            {% endif %}
+                    </div>
+
+
+{% endblock content %}

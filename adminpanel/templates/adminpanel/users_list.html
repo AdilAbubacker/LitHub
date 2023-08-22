@@ -1,0 +1,63 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block content %}
+                    <div class="col-sm-12">
+                        <div class="bg-white rounded h-100 p-4">
+                            <h6 class="mb-4">Customer's List</h6>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No.</th>
+                                        <th scope="col">Userame</th>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Active</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for user in users %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.id }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.is_active }}</td>
+                                        <td>
+                                            {% if user.is_active %}
+                                                <a  href="{% url 'block_user' user.id %}" class="btn btn-outline-danger">Block</a>
+                                            {% else %}
+                                                 <a  href="{% url 'unblock_user' user.id %}" class="btn btn-outline-success">Unblock</a>
+                                            {% endif %}
+<!--                                            <a  href="{% url 'delete_user' user.id %}" class="btn btn-outline-dark">Delete</a>-->
+
+
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+                    <div class="pagination  d-flex justify-content-end me-5 pe-5">
+                            {% if users.has_previous %}
+                                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                                <a class="btn btn-outline-info mb-4" href="?page={{ users.previous_page_number }}">Prev</a>
+                            {% endif %}
+
+                            {% for num in users.paginator.page_range %}
+                                {% if users.number == num %}
+                                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                                {% elif num > users.number|add:'-3' and num < users.number|add:'3' %}
+                                     <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                                {% endif %}
+                            {% endfor %}
+
+                             {% if users.has_next %}
+                                <a class="btn btn-outline-info mb-4" href="?page={{ users.next_page_number }}">Next</a>
+                                <a class="btn btn-outline-info mb-4" href="?page={{ users.paginator.num_pages}}">Last</a>
+                            {% endif %}
+                    </div>
+{% endblock content %}

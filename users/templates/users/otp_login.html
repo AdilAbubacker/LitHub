@@ -1,0 +1,32 @@
+
+
+
+{% extends "users/form_base.html" %}
+
+{% block content %}
+
+<div class="login-container d-flex justify-content-center">
+  <div class="login-page">
+    <div class="form">
+      <header class="fw-bold fs-4 mb-4">Verify with otp</header>
+        <p>Please enter the OTP sent to {{ user.email }}</p>
+       {% if messages %}
+          {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}" role="alert">
+              {{ message }}
+            </div>
+          {% endfor %}
+      {% endif %}
+      <form class="login-form" action='' method='post'>
+        {% csrf_token %}
+        <input type="password" id="otp" name="otp" placeholder="OTP"/>
+        <button type="submit">Verify</button>
+        <p class="message"><a href="{% url 'generate_otp' user.id 1 %}">Resend otp</a></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% extends "users/form_base.html" %}
+
+{% block content %}
+
+<div class="login-container d-flex justify-content-center">
+  <div class="login-page">
+    <div class="form">
+      <header class="fw-bold fs-4 mb-4">Login</header>
+       {% if messages %}
+          {% for message in messages %}
+              <div class="alert alert-{{ message.tags }}" role="alert">
+
+              {{ message }}
+            </div>
+          {% endfor %}
+      {% endif %}
+      <form class="login-form" action='' method='post'>
+        {% csrf_token %}
+        <input type="text" id="username" name="username" placeholder="Username"/>
+        <input type="password" id="pass1" name="pass1" placeholder="Password"/>
+        <button type="submit">login</button>
+        <p class="message">Not registered? <a href="{% url 'signup' %}">Create an account</a></p>
+      </form>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

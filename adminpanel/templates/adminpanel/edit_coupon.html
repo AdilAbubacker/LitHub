@@ -1,0 +1,64 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block content %}
+    <div class="container-fluid pt-4 px-4">
+        <div class="row g-4 d-flex justify-content-center">
+            <div class="col-sm-12 col-xl-6 ">
+                <div class="bg-light rounded h-100 p-4">
+                    <h6 class="mb-4">Edit Coupon</h6>
+                    <form class="login-form" action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="id_code" name="code"
+                                   placeholder="Code" value="{{ coupon.code }}">
+                            <label for="id_code">Code</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <select class="form-select" id="discount_typeSelect" name="discount_typeSelect"
+                                    aria-label="Floating label select example">
+                                <option value="percentage"{% if coupon.discount_type == 'percentage' %} selected{% endif %}>Percentage</option>
+                                <option value="fixed"{% if coupon.discount_type == 'fixed' %} selected{% endif %}>Fixed</option>
+                            </select>
+                            <label for="discount_typeSelect">Discount Type</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="id_discount_value" name="discount_value"
+                                   placeholder="No of pages" value="{{ coupon.discount_value }}">
+                            <label for="id_discount_value">Discount Value</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="number" class="form-control" id="id_min_or_max_amount" name="min_or_max_amount"
+                                   placeholder="No of pages" value="{{ coupon.min_or_max_amount }}">
+                            <label for="id_min_or_max_amount">Maximum Discount Amount</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="datetime-local" class="form-control" id="id_activation_date" name="activation_date"
+                                   value="{{ coupon.activation_date|date:'Y-m-d\TH:i' }}">
+                            <label for="id_activation_date">Activation Date</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input type="datetime-local" class="form-control" id="id_expiration_date" name="expiration_date"
+                                   value="{{ coupon.expiration_date|date:'Y-m-d\TH:i' }}">
+                            <label for="id_expiration_date">Expiration Date</label>
+                        </div>
+
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" value="True" id="id_onetimeusable" name="onetimeusable"
+                                   {% if coupon.is_onetime_usable %}checked{% endif %}>
+                            <label class="form-check-label" for="id_onetimeusable">One Time Usable</label>
+                        </div>
+
+
+                        <br>
+                        <button type="submit" class="btn btn-primary mt-3">Save</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}

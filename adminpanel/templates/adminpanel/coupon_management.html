@@ -1,0 +1,58 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block content %}
+                    <div class="col-sm-12">
+                        <div class="bg-white rounded h-100 p-4">
+                             <div class="d-flex justify-content-between mx-2 my-1 ml">
+                                <div><h5 class="mb-4">Coupons</h5></div>
+                                <div class="ml-5 pl-5"><a  href="{% url 'add_coupon' %}" class="btn btn-sm btn-primary rounded-pill">+ Add Coupon</a></div>
+                            </div>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Coupon</th>
+                                        <th scope="col">Discount Value</th>
+                                        <th scope="col">Maximum Discount</th>
+                                        <th scope="col">Valid From</th>
+                                        <th scope="col">Valid Through</th>
+                                        <th scope="col">Usability</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for coupon in coupons %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td>{{ coupon.code }}</td>
+                                        {% if coupon.discount_type == 'percentage' %}
+                                        <td>{{ coupon.discount_value }} %</td>
+                                        {% else %}
+                                        <td>₹ {{ coupon.discount_value }}</td>
+                                        {% endif %}
+                                        <td>{{ coupon.min_or_max_amount }}</td>
+                                        <td>{{ coupon.expiration_date }}</td>
+                                        <td>{{ coupon.expiration_date }}</td>
+                                        {% if coupon.is_onetime_usable %}
+                                        <td>One</td>
+                                        {% else %}
+                                        <td>Multiple</td>
+                                        {% endif %}
+                                         <td>
+                                             <a  href="{% url 'edit_coupon' coupon.id %}" class="btn btn-outline-info m-1">Edit</a>
+                                             {% if coupon.is_active %}
+                                                <a  href="{% url 'activate_coupon' coupon.id 'deactivate' %}" class="btn btn-outline-danger m-1">Deactivate</a>
+                                            {% else %}
+                                                 <a  href="{% url 'activate_coupon' coupon.id 'activate' %}" class="btn btn-outline-success m-1">Activate</a>
+                                            {% endif %}
+                                         </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+{% endblock content %}

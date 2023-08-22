@@ -1,0 +1,40 @@
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.admin_home, name='admin-home'),
+    path('category_list/', views.category_list, name='admin-category_list'),
+    path('create_category/', views.create_category, name='admin-create_category'),
+    path('users_list/', views.users_list, name='admin-users_list'),
+    path('products_list/', views.products_list, name='admin-products_list'),
+    path('enable_category/<int:category_id>', views.enable_category, name='enable_category'),
+    path('disable_category/<int:category_id>', views.disable_category, name='disable_category'),
+    path('delete_category/<int:category_id>', views.delete_category, name='delete_category'),
+    path('edit_category/<int:category_id>', views.edit_category, name='edit_category'),
+    path('block_user/<int:user_id>', views.block_user, name='block_user'),
+    path('unblock_user/<int:user_id>', views.unblock_user, name='unblock_user'),
+    path('delete_user/<int:user_id>', views.delete_user, name='delete_user'),
+    path('edit_product/<int:book_id>', views.edit_product, name='edit_product'),
+    path('add_product', views.add_product, name='add_product'),
+    path('enable_product/<int:book_id>', views.enable_product, name='enable_product'),
+    path('process_image/', views.process_image, name='process_image'),
+    path('disable_product/<int:book_id>', views.disable_product, name='disable_product'),
+    path('view_product_variants/<int:book_id>', views.view_product_variants, name='view_product_variants'),
+    path('edit_variant/<int:variant_id>/<int:book_id>', views.edit_variant, name='edit_variant'),
+    path('enable_variant/<int:variant_id>/<int:book_id>', views.enable_variant, name='enable_variant'),
+    path('disable_variant/<int:variant_id>/<int:book_id>', views.disable_variant, name='disable_variant'),
+    path('add_variant/<int:book_id>', views.add_variant, name='add_variant'),
+    path('orders_list/', views.orders_list, name='orders_list'),
+    path('change_order_status/<int:order_id>/<str:status>', views.change_order_status, name='change_order_status'),
+    path('admin_order_details/<int:order_id>', views.admin_order_details, name='admin_order_details'),
+    path('coupon_management/', views.coupon_management, name='coupon_management'),
+    path('add_coupon/', views.add_coupon, name='add_coupon'),
+    path('edit_coupon/<int:coupon_id>', views.edit_coupon, name='edit_coupon'),
+    path('activate_coupon/<int:coupon_id>/<str:action>', views.activate_coupon, name='activate_coupon'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('sales_report', views.sales_report, name='sales_report'),
+    # path('get-sales-data/', views.get_sales_data, name='get_sales_data'),
+    # path('sales-chart/', views.sales_chart, name='sales_chart'),
+
+]
+

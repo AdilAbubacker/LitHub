@@ -1,0 +1,70 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block content %}
+
+                    <div class="col-sm-12">
+                        <div class="bg-white rounded h-100 p-4">
+                            <div class="d-flex justify-content-between mx-3">
+                                <div><h6 class="mb-4">Catgory list</h6></div>
+                                <div class="ml-5 pl-5"><a  href="{% url 'admin-create_category' %}" class="btn btn-sm btn-primary rounded-pill">+ Add Category</a></div>
+                            </div>
+                            <table class="table table-hover mt-2">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No</th>
+                                        <th scope="col">Image</th>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for category in categoies %}
+                                    <tr>
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                         <td>
+                                            <img src="{{ category.image.url }}" alt="{{ category.name }} Image" width="40" height="40">
+                                        </td>
+                                        <td>{{ category.id }}</td>
+                                        <td>{{ category.name }}</td>
+
+                                        <td>
+                                            <a  href="{% url 'edit_category' category.id %}" class="btn btn-outline-info m-1">Edit</a>
+                                            {% if category.is_active %}
+                                                <a  href="{% url 'disable_category' category.id %}" class="btn btn-outline-danger m-1">Disable</a>
+                                            {% else %}
+                                                 <a  href="{% url 'enable_category' category.id %}" class="btn btn-outline-success m-1">Enable</a>
+                                            {% endif %}
+<!--                                            <a  href="{% url 'delete_category' category.id %}" class="btn btn-outline-light m-2">Del</a>-->
+
+
+                                        </td>
+
+
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="pagination  d-flex justify-content-end me-5 pe-5">
+                            {% if categoies.has_previous %}
+                                <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
+                                <a class="btn btn-outline-info mb-4" href="?page={{ categoies.previous_page_number }}">Prev</a>
+                            {% endif %}
+
+                            {% for num in categoies.paginator.page_range %}
+                                {% if users.number == num %}
+                                    <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                                {% elif num > categoies.number|add:'-3' and num < categoies.number|add:'3' %}
+                                     <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
+                                {% endif %}
+                            {% endfor %}
+
+                             {% if categoies.has_next %}
+                                <a class="btn btn-outline-info mb-4" href="?page={{ categoies.next_page_number }}">Next</a>
+                                <a class="btn btn-outline-info mb-4" href="?page={{ categoies.paginator.num_pages}}">Last</a>
+                            {% endif %}
+                    </div>
+
+{% endblock content %}

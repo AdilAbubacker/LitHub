@@ -1,0 +1,42 @@
+{% extends "adminpanel/admin_base.html" %}
+
+{% block content %}
+                    <div class="col-sm-12">
+                        <div class="bg-white rounded h-100 p-4">
+                            <h6 class="mb-4">Orders</h6>
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">No.</th>
+                                        <th scope="col">Customer</th>
+                                        <th scope="col">Date</th>
+                                        <th scope="col">Payment Status</th>
+                                        <th scope="col">Payment Method</th>
+                                        <th scope="col">Order Status</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for order in orders %}
+                                    <tr>
+                                        <th scope="row">{{ order.id }}</th>
+                                        <td>{{ order.user }}</td>
+                                        <td>{{ order.order_date }}</td>
+                                        <td>{{ order.payment_status }}</td>
+                                        <td>{{ order.payment_method }}</td>
+                                        <td>{{ order.order_status }}</td>
+                                        <td>{{ order.price }}</td>
+                                        <td>
+                                            <a  href="{% url 'admin_order_details' order.id %}" class="btn btn-outline-danger">Details</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+
+{% endblock content %}

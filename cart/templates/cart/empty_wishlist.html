@@ -1,0 +1,47 @@
+{% extends "cart/navbar_base.html" %}
+
+{% load static %}
+
+{% block content %}
+
+<!--            <div class="container-fluid pt-4 px-4">-->
+<!--                <div class="row g-4 d-flex justify-content-center">-->
+<!--                    <div class="col-sm-12 col-lg-6 ">-->
+<!--                        <div class="bg-light rounded h-100 p-4">-->
+<!--                            <div><img src="https://i.imgur.com/dCdflKN.png" height="400"></div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+
+
+
+<div class="container-fluid  mt-100">
+				 <div class="row d-flex justify-content-center mt-5">
+
+					<div class="col-lg-4">
+
+							<div class="card">
+
+						<div class="card-body-m cart d-flex justify-content-center">
+								<div class="col-sm-12 empty-cart-cls text-center">
+									<img src="{% static 'store/img/wishlist.png' %}" class="img-fluid mb-4 mr-3" style="width: 320px; height: 250px;">
+									<h4>Your Wishlist is Empty</h4>
+									<h6>Add items that you like to your wishlist. Review them anytime and easily move them to the bag.
+</h6>
+									<a href="{% url 'product_list' 0 %}" class="btn btn-success cart-btn-transform m-3" data-abc="true">Continue Shopping</a>
+
+
+								</div>
+						</div>
+				</div>
+
+
+					</div>
+
+				 </div>
+
+				</div>
+{% endblock content %}
+

@@ -1,0 +1,36 @@
+{% extends "user_profile/userprofile_base.html" %}
+
+{% block profile_content %}
+
+            <div class="col-lg-12">
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                  {% for order in orders %}
+                  <div class="card card-stepper m-3 mb-4" style="border-radius: 10px; margin-bottom: 40px; border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
+                    <div class="card-body p-4" style="padding-bottom: 20px;">
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex flex-column">
+                          <span class="lead fw-normal">Order Id: LTHB00202314{{ order.id }}</span>
+                          <span class="text-muted small">Name : {{ order.address.name }} {{orders.user.last_name}}</span>
+                          <span class="text-muted small">Delivery Address : {{ order.address.address }}</span>
+                          <span class="text-muted ">Items :{{ order.price }}</span>
+                        </div>
+                        <div>
+                          <a href="{% url 'myorder_detail' order.id %}" class="btn btn-outline-success" role="button">Order Details</a>
+                        </div>
+                      </div>
+                      <hr class="my-4">
+                      <div class="d-flex flex-row justify-content-between align-items-center">
+                        <div class="d-flex flex-column align-items-start"><span>Ordered Date</span><span class="text-muted small">{{ order.order_date.date }}</span></div>
+                        <div class="d-flex flex-column justify-content-center"><span >Payment Method</span><span class="text-muted small">{{ order.payment_method }}</span></div>
+                        <div class="d-flex flex-column justify-content-center align-items-center"><span>Current Status</span><span class="text-muted small">{{ order.order_status }}</span></div>
+                        <div class="d-flex flex-column align-items-center"><span>Payment Status</span><span class="text-muted small">{{ order.payment_status }}</span></div>
+                      </div>
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+          </div>
+        </div>
+
+{% endblock profile_content %}

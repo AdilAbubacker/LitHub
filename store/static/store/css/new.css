@@ -1,0 +1,31 @@
+
+#category-image-container {
+  position: relative;
+  display: inline-block;
+}
+
+#category-image-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
+  z-index: 1;
+}
+
+#category-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  transform: translate(0%, 0%);
+  display: flex;
+  justify-content: flex-start; /* Updated property */
+  align-items: flex-end; /* Updated property */
+  text-align: left; /* Updated property */
+  z-index: 2;
+  color: white;
+  width: 100%; /* Added property */
+  padding: 10px; /* Added property for spacing */
+}

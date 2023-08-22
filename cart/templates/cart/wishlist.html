@@ -1,0 +1,52 @@
+{% extends "store/base.html" %}
+{% load static %}
+
+{% block style %}
+  <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <link href="{% static 'store/css/stylee.css' %}" rel="stylesheet">
+
+    <style>
+    .card-header{
+        height: 283px; /* Adjust the height as needed */
+    }
+
+    </style>
+{% endblock %}
+{% block content %}
+ <!-- Cart Start -->
+
+
+            <div class="wishlist-heading ms-5 mt-4 pt-3">
+                <h4 class="">My Wishlist <span style="font-weight: 300;">{{ wishlist_count }} items</span></h4>
+            </div>
+
+            <div class="mt-3 pt-3 px-5">
+                <div class="row">
+                {% for item in wishlist_items %}
+                <div class="col-lg-2 col-md-3 col-sm-4 col-6 mb-4">
+                    <div class="card product-item border-0 mb-4">
+                        <a href="{% url 'product_details' item.variant.slug %}" class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                            <img class="img-fluid w-100" src="{{ item.variant.image.url }}" alt="">
+                        </a>
+                        <div class="card-body border text-center p-0 pt-3 pb-2">
+                            <h6 class="text-truncate mb-3"> {{ item.variant.book.name }} - {{ item.variant.language }} - {{ item.variant.cover_type }}</h6>
+                            <div class="d-flex justify-content-center">
+                                <h6>₹{{ item.variant.price }}</h6><h6 class="text-muted ml-2"><del>₹{{ item.variant.price }}</del></h6>
+                            </div>
+                        </div>
+                            <a href="{% url 'wishlist_to_cart' item.id %}" class="card-footer d-flex justify-content-center bg-light border text-decoration-none">
+                                <div class="btn btn-sm text-dark p-0"><i class="fas fa-shopping-cart text-success mr-1"></i>Move To Cart</div>
+                            </a>
+                        </div>
+                    </div>
+
+                {% endfor %}
+                </div>
+            </div>
+
+    <!-- Cart End -->
+
+
+{% endblock content %}
