@@ -187,7 +187,9 @@
                             {% for variants in cover_type_variants %}
                             <a href="{% url 'product_details' variants.slug %}" class="variant-box-outer">
                                 <button type="button" class="variant-box btn btn-outline-success m-2 {% if variants.id == variant.id %}active{% endif %}">
-                                    <span class="variant-name">{{ variants.cover_type }}</span><br>
+                                    <span class="variant-name">{{ variants.cover_type }}</span>
+
+
                                     <span class="variant-price">₹{{ variants.price }}</span>
                                 </button>
                             </a>
