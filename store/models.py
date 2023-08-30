@@ -100,6 +100,7 @@ class BookVariant(models.Model):
     language = models.ForeignKey(Language, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     offer_price = models.DecimalField(max_digits=8, decimal_places=2, blank=True, null=True)
+    offer_percentage = models.PositiveIntegerField(default=0)
     image = models.ImageField(upload_to='variant_cover_image/')
     is_active = models.BooleanField(default='True')
     stock = models.PositiveIntegerField()
@@ -110,11 +111,7 @@ class BookVariant(models.Model):
         product_offer = self.book.offer_percentage if self.book.offer_percentage else 0
         variant_offer = max(category_offer, product_offer)
         self.offer_price = self.price * (1 - variant_offer / 100) if variant_offer != 0 else None
-
-    def calculate_offer_percentage(self):
-        if self.price > 0:
-            return ((self.price - self.offer_price) / self.price) * 100
-        return 0
+        self.offer_percentage = variant_offer if variant_offer != 0 else 0
 
     def save(self, *args, **kwargs):
         self.calculate_offer_price()

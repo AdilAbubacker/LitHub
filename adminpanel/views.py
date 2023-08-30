@@ -2,7 +2,9 @@ from datetime import timedelta, datetime
 
 import json
 
+import razorpay
 from _decimal import Decimal
+from django.contrib import messages
 from django.db import models
 from django.http import JsonResponse
 from django.db.models import Count
@@ -16,6 +18,9 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
+
+from cart.models import Wallet
+from core import settings
 from orders.models import Order, OrderItem
 from promotions.models import Coupon
 from store.models import Category, Book, BookVariant, Author, Publisher
@@ -546,45 +551,96 @@ def dashboard(request):
 
         return render(request, 'adminpanel/dashboard.html', context)
 
-
 def sales_report(request):
     if request.user.is_superuser:
-        today = timezone.now().date()
-        week_ago = today - timedelta(days=7)
-        month_ago = today - timedelta(days=30)
-        # Today's totals
-        today_orders = Order.objects.filter(order_date__date=today)
-        order_count_today = today_orders.count()
-        total_price_today = today_orders.aggregate(Sum('price'))['price__sum']
-        # Weekly totals
-        week_orders = Order.objects.filter(order_date__range=[week_ago, today])
-        order_count_week = week_orders.count()
-        total_price_week = week_orders.aggregate(Sum('price'))['price__sum']
-        # Monthly totals
-        month_orders = Order.objects.filter(order_date__range=[month_ago, today])
-        order_count_month = month_orders.count()
-        total_price_month = month_orders.aggregate(Sum('price'))['price__sum']
-        # Top selling products
-        top_selling_products_today = OrderItem.objects.filter(order__order_date__range=[today, today]).values('variant__book__name').annotate(
-            total_quantity=Sum('quantity')).order_by('-total_quantity')[:5] if not None else 0
+        # Get the current date and time
+        current_datetime = timezone.now()
 
-        top_selling_products_week = OrderItem.objects.filter(
-            order__order_date__range=[week_ago, today]
-        ).values('variant__book__name').annotate(total_quantity=Sum('quantity')).order_by('-total_quantity')[:5]
-        top_selling_products_month = OrderItem.objects.filter(order__order_date__range=[month_ago, today]).values(
-            'variant__book__name').annotate(total_quantity=Sum('quantity')).order_by('-total_quantity')[:5]
+        # Monthly Sales Report
+        monthly_sales = Order.objects.filter(order_date__year=current_datetime.year).values(
+            'order_date__month').annotate(total_sales=Sum('price'))
+
+        # Weekly Sales Report
+        week_start_date = current_datetime - timedelta(days=current_datetime.weekday())
+        week_end_date = week_start_date + timedelta(days=6)
+        weekly_sales = Order.objects.filter(order_date__range=[week_start_date, week_end_date]).aggregate(
+            total_sales=Sum('price'))
+
+        # Top Selling Products
+        top_selling_products = OrderItem.objects.values('variant__book__title').annotate(total_sales=Sum('price')).order_by(
+            '-total_sales')[:5]
+
+        # Daily Sales for the last 7 days
+        daily_sales = Order.objects.filter(order_date__date__gte=current_datetime.date() - timedelta(days=7)).values(
+            'order_date__date').annotate(total_sales=Sum('price'))
+
+        # Number of orders in the last 7 days
+        orders_last_7_days = Order.objects.filter(
+            order_date__date__gte=current_datetime.date() - timedelta(days=7)).count()
+
+        # Number of orders in the last one month
+        orders_last_30_days = Order.objects.filter(
+            order_date__date__gte=current_datetime.date() - timedelta(days=30)).count()
+
+        # Number of pending orders for today
+        pending_orders_today = Order.objects.filter(order_date__date=current_datetime.date(),
+                                                    payment_status='PENDING').count()
+
+        # Number of delivered orders for today
+        delivered_orders_today = Order.objects.filter(order_date__date=current_datetime.date(),
+                                                      order_status='DELIVERED').count()
+
         context = {
-            'order_count_today': order_count_today,
-            'total_price_today': total_price_today,
-            'order_count_week': order_count_week,
-            'total_price_week': total_price_week,
-            'order_count_month': order_count_month,
-            'total_price_month': total_price_month,
-            'top_selling_products_today': top_selling_products_today,
-            'top_selling_products_week': top_selling_products_week,
-            'top_selling_products_month': top_selling_products_month,
+            'monthly_sales': monthly_sales,
+            'weekly_sales': weekly_sales,
+            'top_selling_products': top_selling_products,
+            'daily_sales': daily_sales,
+            'orders_last_7_days': orders_last_7_days,
+            'orders_last_30_days': orders_last_30_days,
+            'pending_orders_today': pending_orders_today,
+            'delivered_orders_today': delivered_orders_today,
         }
-        return render(request, 'adminpanel/sales_report.html', context)
+
+        return render(request, 'adminpanel/sales_report1.html', context)
+
+# def sales_report(request):
+#     if request.user.is_superuser:
+#         today = timezone.now().date()
+#         week_ago = today - timedelta(days=7)
+#         month_ago = today - timedelta(days=30)
+#         # Today's totals
+#         today_orders = Order.objects.filter(order_date__date=today)
+#         order_count_today = today_orders.count()
+#         total_price_today = today_orders.aggregate(Sum('price'))['price__sum']
+#         # Weekly totals
+#         week_orders = Order.objects.filter(order_date__range=[week_ago, today])
+#         order_count_week = week_orders.count()
+#         total_price_week = week_orders.aggregate(Sum('price'))['price__sum']
+#         # Monthly totals
+#         month_orders = Order.objects.filter(order_date__range=[month_ago, today])
+#         order_count_month = month_orders.count()
+#         total_price_month = month_orders.aggregate(Sum('price'))['price__sum']
+#         # Top selling products
+#         top_selling_products_today = OrderItem.objects.filter(order__order_date__range=[today, today]).values('variant__book__name').annotate(
+#             total_quantity=Sum('quantity')).order_by('-total_quantity')[:5] if not None else 0
+#
+#         top_selling_products_week = OrderItem.objects.filter(
+#             order__order_date__range=[week_ago, today]
+#         ).values('variant__book__name').annotate(total_quantity=Sum('quantity')).order_by('-total_quantity')[:5]
+#         top_selling_products_month = OrderItem.objects.filter(order__order_date__range=[month_ago, today]).values(
+#             'variant__book__name').annotate(total_quantity=Sum('quantity')).order_by('-total_quantity')[:5]
+#         context = {
+#             'order_count_today': order_count_today,
+#             'total_price_today': total_price_today,
+#             'order_count_week': order_count_week,
+#             'total_price_week': total_price_week,
+#             'order_count_month': order_count_month,
+#             'total_price_month': total_price_month,
+#             'top_selling_products_today': top_selling_products_today,
+#             'top_selling_products_week': top_selling_products_week,
+#             'top_selling_products_month': top_selling_products_month,
+#         }
+#         return render(request, 'adminpanel/sales_report.html', context)
 
     # def sale(request):
     #     end_date = datetime.now()
@@ -625,3 +681,46 @@ def sales_report(request):
     #     }
     #
     #     return JsonResponse(data)
+
+
+def initiate_refund(request, order_id):
+    # Retrieve the order or show a 404 page if the order does not exist
+    order = get_object_or_404(Order, id=order_id)
+
+    if order.payment_method == 'UPI' or order.payment_method == 'RAZORPAY':
+        # Refund the payment through Razorpay
+        client = razorpay.Client(auth=(settings.RAZORPAY_KEY_ID, settings.RAZORPAY_KEY_SECRET))
+        refund_response = client.payment.refund(order.razor_pay_payment_id, {'amount': int(order.price * 100)})
+
+        # Refund successful
+        if refund_response['status'] == 'processed':
+            order.payment_status = 'REFUNDED'
+            order.save()
+            messages.success(request, "Refund processed to costumers source bank account successfully.")
+        else:
+            messages.error(request, "Unable to process the refund to costumers source bank account. Please try again "
+                                    "later.")
+            return redirect('admin_order_details', order.id)
+
+    elif order.payment_method == 'CASH_ON_DELIVERY' or order.payment_method == 'COD' or order.payment_method == 'Cash on Delivery':
+        buyer_wallet = Wallet.objects.get(user=order.user)
+        buyer_wallet.balance += order.price
+        buyer_wallet.save()
+        messages.success(request, "Refund processed to costumers wallet successfully.")
+        order.payment_status = 'REFUNDED'
+        order.order_status = 'RETURNED'
+    order.save()
+
+    if order.payment_status == 'REFUNDED':
+        # Update stock quantity
+        order_items = OrderItem.objects.filter(order=order)
+        for item in order_items:
+            variant = item.variant
+            variant.stock += item.quantity
+            variant.save()
+
+        # Set the order status to 'Returned'
+        order.order_status = 'Returned'
+        order.save()
+
+    return redirect('admin_order_details', order.id)

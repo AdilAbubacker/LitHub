@@ -1,0 +1,433 @@
+
+{% extends "user_profile/userprofile_base.html" %}
+
+
+
+
+
+
+{% block profile_content %}
+
+{% block link  %}
+<link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+{% endblock  %}
+
+
+{% block new_style %}
+<style>
+ @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');font-family: 'Open Sans',serif}.container{margin-top:50px;margin-bottom: 50px}.card{position: relative;display: -webkit-box;display: -ms-flexbox;display: flex;-webkit-box-orient: vertical;-webkit-box-direction: normal;-ms-flex-direction: column;flex-direction: column;min-width: 0;word-wrap: break-word;background-color: #fff;background-clip: border-box;border: 1px solid rgba(0, 0, 0, 0.1);border-radius: 0.10rem}.card-header:first-child{border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0}.card-header{padding: 0.75rem 1.25rem;margin-bottom: 0;background-color: #fff;border-bottom: 1px solid rgba(0, 0, 0, 0.1)}.track{position: relative;background-color: #ddd;height: 7px;display: -webkit-box;display: -ms-flexbox;display: flex;margin-bottom: 60px;margin-top: 50px}.track .step{-webkit-box-flex: 1;-ms-flex-positive: 1;flex-grow: 1;width: 25%;margin-top: -18px;text-align: center;position: relative}.track .step.active:before{background: #FF5722}.track .step::before{height: 7px;position: absolute;content: "";width: 100%;left: 0;top: 18px}.track .step.active .icon{background: #ee5435;color: #fff}.track .icon{display: inline-block;width: 40px;height: 40px;line-height: 40px;position: relative;border-radius: 100%;background: #ddd}.track .step.active .text{font-weight: 400;color: #000}.track .text{display: block;margin-top: 7px}.itemside{position: relative;display: -webkit-box;display: -ms-flexbox;display: flex;width: 100%}.itemside .aside{position: relative;-ms-flex-negative: 0;flex-shrink: 0}.img-sm{width: 80px;height: 80px;padding: 7px}ul.row, ul.row-sm{list-style: none;padding: 0}.itemside .info{padding-left: 15px;padding-right: 7px}.itemside .title{display: block;margin-bottom: 5px;color: #212529}p{margin-top: 0;margin-bottom: 1rem}.btn-warning{color: #ffffff;background-color: #ee5435;border-color: #ee5435;border-radius: 1px}.btn-warning:hover{color: #ffffff;background-color: #ff2b00;border-color: #ff2b00;border-radius: 1px}
+</style>
+{% endblock  %}
+
+  
+{% load static %}
+  
+<div class="container mt-5 mb-5">
+    <div class="row d-flex justify-content-center">
+      <div class="col-md-10">
+        <div class="card ">
+<!--          <div class="text-left logo p-2 px-5">-->
+<!--            <img src="{%static 'user/img/logo1.png'%}" width="50">-->
+<!--          </div>-->
+          <div class="invoice p-5">
+        {% if messages %}
+          {% for message in messages %}
+              <div class="alert alert-{{ message.tags }} mb-4" role="alert">
+
+              {{ message }}
+            </div>
+          {% endfor %}
+      {% endif %}
+            <h3 class="fw-bold">Order Details</h3>
+            {% if order.order_status == 'Order Confirmed' %}
+              <div class="track">
+                <!-- Track div contents -->
+                <div class="step active">
+                    <span class="icon">
+                      <i class="fa fa-check"></i>
+                    </span>
+                    <span class="text">Order confirmed</span>
+                  </div>
+                  <div class="step">
+                    <span class="icon">
+                      <i class="fa fa-truck"></i>
+                    </span>
+                    <span class="text"> Shipped</span>
+                  </div>
+                  <div class="step">
+                    <span class="icon">
+                      <i class="fa fa-box"></i>
+                    </span>
+                    <span class="text"> Out for Delivery </span>
+                  </div>
+                  <div class="step">
+                    <span class="icon">
+                      <i class="fa fa-check"></i>
+                    </span>
+                    <span class="text">Delivered</span>
+                  </div>
+              </div>
+            {% elif order.order_status == 'Shipped'%}
+              <div class="track">
+                <!-- Track div contents -->
+                <div class="step active">
+                    <span class="icon">
+                      <i class="fa fa-check"></i>
+                    </span>
+                    <span class="text">Order confirmed</span>
+                  </div>
+                  <div class="step active">
+                    <span class="icon">
+                      <i class="fa fa-truck"></i>
+                    </span>
+                    <span class="text"> Shipped</span>
+                  </div>
+                  <div class="step">
+                    <span class="icon">
+                      <i class="fa fa-box"></i>
+                    </span>
+                    <span class="text"> Out for Delivery </span>
+                  </div>
+                  <div class="step">
+                    <span class="icon">
+                      <i class="fa fa-check"></i>
+                    </span>
+                    <span class="text">Delivered</span>
+                  </div>
+              </div>
+              {% elif order.order_status == 'Out for Delivery'%}
+              <div class="track">
+                <!-- Track div contents -->
+                <div class="step active">
+                    <span class="icon">
+                      <i class="fa fa-check"></i>
+                    </span>
+                    <span class="text">Order confirmed</span>
+                  </div>
+                  <div class="step active">
+                    <span class="icon">
+                      <i class="fa fa-truck"></i>
+                    </span>
+                    <span class="text"> Shipped</span>
+                  </div>
+                  <div class="step active">
+                    <span class="icon">
+                      <i class="fa fa-box"></i>
+                    </span>
+                    <span class="text"> Out for Delivery </span>
+                  </div>
+                  <div class="step">
+                    <span class="icon">
+                      <i class="fa fa-check"></i>
+                    </span>
+                    <span class="text">Delivered</span>
+                  </div>
+              </div>
+
+            {% elif order.order_status == 'Delivered'%}
+            <div class="track">
+              <!-- Track div contents -->
+              <div class="step active">
+                  <span class="icon">
+                    <i class="fa fa-check"></i>
+                  </span>
+                  <span class="text">Order confirmed</span>
+                </div>
+                  <div class="step active">
+                    <span class="icon">
+                      <i class="fa fa-truck"></i>
+                    </span>
+                    <span class="text"> Shipped</span>
+                  </div>
+                  <div class="step active">
+                    <span class="icon">
+                      <i class="fa fa-box"></i>
+                    </span>
+                    <span class="text"> Out for Delivery </span>
+                  </div>
+                  <div class="step active">
+                    <span class="icon">
+                      <i class="fa fa-check"></i>
+                    </span>
+                    <span class="text">Delivered</span>
+                  </div>
+            </div>
+            {% elif order.order_status == 'Cancelled' %}
+              <div class="track">
+                <!-- Track div contents -->
+                <div class="step active">
+                  <span class="icon">
+                    <i class="bi bi-cart-x"></i>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart-x" viewBox="0 0 16 16">
+                      <path d="M7.354 5.646a.5.5 0 1 0-.708.708L7.793 7.5 6.646 8.646a.5.5 0 1 0 .708.708L8.5 8.207l1.146 1.147a.5.5 0 0 0 .708-.708L9.207 7.5l1.147-1.146a.5.5 0 0 0-.708-.708L8.5 6.793 7.354 5.646z"/>
+                      <path d="M.5 1a.5.5 0 0 0 0 1h1.11l.401 1.607 1.498 7.985A.5.5 0 0 0 4 12h1a2 2 0 1 0 0 4 2 2 0 0 0 0-4h7a2 2 0 1 0 0 4 2 2 0 0 0 0-4h1a.5.5 0 0 0 .491-.408l1.5-8A.5.5 0 0 0 14.5 3H2.89l-.405-1.621A.5.5 0 0 0 2 1H.5zm3.915 10L3.102 4h10.796l-1.313 7h-8.17zM6 14a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm7 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                    </svg>
+                  </span>
+                  <span class="text">ORDER CANCELLED</span>
+                </div>
+              </div>
+            {% elif order.order_status == 'Returned' %}
+              <div class="track">
+                <!-- Track div contents -->
+                <div class="step active">
+                    <span class="icon">
+                      <i class="fa fa-truck"></i>
+                    </span>
+                    <span class="text"> RETURNED </span>
+                  </div>
+                
+              </div>
+               {% elif order.order_status == 'Return Requested' %}
+              <div class="track">
+                <!-- Track div contents -->
+                <div class="step">
+                    <span class="icon">
+                      <i class="fa fa-truck"></i>
+                    </span>
+                    <span class="text"> RETURN INITIATED</span>
+                  </div>
+
+              </div>
+
+              {% else %}
+              <div class="track">
+                <!-- Track div contents -->
+                <div class="step">
+                    <span class="icon">
+                      <i class="fa fa-check"></i>
+                    </span>
+                    <span class="text">Order confirmed</span>
+                  </div>
+                  <div class="step">
+                    <span class="icon">
+                      <i class="fa fa-truck"></i>
+                    </span>
+                    <span class="text"> Shipped</span>
+                  </div>
+                  <div class="step">
+                    <span class="icon">
+                      <i class="fa fa-box"></i>
+                    </span>
+                    <span class="text"> Out for Delivery </span>
+                  </div>
+                  <div class="step">
+                    <span class="icon">
+                      <i class="fa fa-check"></i>
+                    </span>
+                    <span class="text">Delivered</span>
+                  </div>
+              </div>
+
+            {% endif %}
+
+            <div class="payment border-top mb-3 border-bottom table-responsive pt-3">
+              <table class="table table-borderless">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="py-2">
+                                <span class="d-block text-muted">Order Status</span>
+                                <span>{{ order.order_status }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="py-2">
+                                <span class="d-block text-muted">Order No</span>
+                                <span>TKN002023{{ order.id }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="py-2">
+                                <span class="d-block text-muted">Payment Method</span>
+                                <span>{{ order.payment_method }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="py-2">
+                                <span class="d-block text-muted">Shipping Address</span>
+                                <span>{{ order.address.address }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="product border-bottom table-responsive">
+              <table class="table table-borderless">
+                <!-- Product table rows -->
+                {% for item in order_items %}
+                <tbody>
+                    <tr>
+                        <td width="20%">
+                            <img src="{{ item.variant.image.url }}" width="90">
+                        </td>
+                        <td width="60%">
+                            <span class="font-weight-bold">{{ item.variant.book.title }}</span>
+                            <div class="product-qty">
+                                <span class="d-block">Quantity: {{ item.quantity }}</span>
+                                <span>Language:{{ item.variant.language }}</span><br>
+                                <span>Format:{{ item.variant.cover_type }}</span>
+                            </div>
+                        </td>
+                        <td width="20%">
+                            <div class="text-right">
+                                <span class="font-weight-bold">{{ item.variant.price }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            {% endfor %}
+
+              </table>
+            </div>
+            <div class="row d-flex justify-content-end">
+              <div class="col-md-5">
+                <table class="table table-borderless">
+                  <tbody class="totals">
+                    <!-- Totals table rows -->
+                    <tr>
+                        <td>
+                            <div class="text-left">
+                                <span class="text-muted">Subtotal</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-right">
+                                <span>₹{{ order.price }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="text-left">
+                                <span class="text-muted">Shipping Fee</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-right">
+                                <span>₹ 00</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="text-left">
+                                <span class="text-muted">Tax Fee</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-right">
+                                <span>₹00</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="text-left">
+                                <span class="text-muted">Discount</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-right">
+                                <span class="text-success">₹00</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="border-top border-bottom">
+                        <td>
+                            <div class="text-left">
+                                <span class="font-weight-bold">Subtotal</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-right">
+                                <span class="font-weight-bold">₹{{ order.price }}</span>
+                            </div>
+                        </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="card-body p-5">
+              <div class="shadow-0 border mb-4">
+                <div class="card-body">
+                  <div class="row">
+                      {% if order.order_status == 'Delivered' %}
+                    <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                      <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+                        <a href="{% url 'order_pdf' order.id %}" style="text-decoration: none;color: inherit;">Invoice PDF</a>
+                      </button>
+                    </div>
+                       {% endif %}
+                    <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                      <!-- Add any additional content here -->
+                    </div>
+                    {% if order.order_status == 'Delivered' %}
+                        <div class="col-md-4 text-center d-flex stifyju-content-center align-items-center">
+                      <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+                        <a href="#" onclick="confirmAction({
+    title: 'Are you sure?',
+    text: 'Are you sure you want to return this order?',
+    actionUrl: '{% url 'request_return' order.id %}',
+    confirmButtonText: 'Yes',
+    successTitle: 'Return Initiated',
+    successText: 'The return process has been initiated.'
+})" style="text-decoration: none;color: inherit;">Return Order</a>
+                      </button>
+                    </div>
+<!--                    <div class="col-md-4 text-center d-flex justify-content-center align-items-center">-->
+<!--                      <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">-->
+
+<!--                          <a href=""  onclick="confirmAction({-->
+<!--    title: 'Are you sure?',-->
+<!--    text: 'Are you sure you want to return this order?',-->
+<!--    actionUrl: '{% url 'request_return' order.id %}',-->
+<!--    confirmButtonText: 'Yes',-->
+<!--    successTitle: 'Return Initiated',-->
+<!--    successText: 'The return process has been initiated.'-->
+<!--})" style="text-decoration: none;color: inherit;">Return Order</a>-->
+<!--                      </button>-->
+<!--                    </div>-->
+                  {% elif order.order_status == 'Returned' or order.order_status == "PENDING" or order.order_status == "Return Requested" or  order.order_status == 'Cancelled'  %}
+                    <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                      <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+                        <a href="{% url 'product_list' 'Category' 'all' %}" style="text-decoration: none;color: inherit;">Shop More</a>
+                      </button>
+                    </div>
+                   
+                  {% else %}
+                    <div class="col-md-4 text-center d-flex stifyju-content-center align-items-center">
+                      <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+                        <a href="#" onclick="confirmAction({
+    title: 'Are you sure?',
+    text: 'Are you sure you want to cancel this order?',
+    actionUrl: '{% url 'cancel_order' order.id %}',
+    confirmButtonText: 'Yes',
+    successTitle: 'Order Cancelled',
+    successText: 'The order has been cancelled.'
+})" style="text-decoration: none;color: inherit;">Cancel Order</a>
+                      </button>
+                    </div>
+                  {% endif %}
+                  
+                  
+                  
+                  </div>
+                </div>
+              </div>
+            </div>
+            <p>Welcome to the Ordered Products Page! Here, you can conveniently view and manage your recently ordered products. Stay organized and track your purchases effortlessly!</p>
+            <p class="font-weight-bold mb-0">Thanks for shopping with us!</p>
+            <span>LitHub Team</span>
+            <div class="d-flex justify-content-between footer p-3">
+              <span>Continue Shopping <a href="{% url 'product_list' 'Category' 'all' %}"> Shop More</a></span>
+              <span>{{ order.order_date.date }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock profile_content %}

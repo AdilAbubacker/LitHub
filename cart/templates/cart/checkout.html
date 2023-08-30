@@ -218,7 +218,8 @@
         // Make an AJAX POST request to initiate the payment
         $.ajax({
             type: "POST",
-            url: "/initiate_payment/",  // Replace with the actual URL of your Django view
+
+            url: "/initiate_payment/",
             headers: { "X-CSRFToken": "{{ csrf_token }}" }, // Add this line to include the CSRF token
             dataType: 'json',  // Expect JSON response from the server
             success: function(response) {
@@ -252,7 +253,7 @@
                             success: function(response) {
                                 var id = response.orderId
                                 console.log("Order ID:", id);
-                                window.location.href ="{% url 'order_placed' %}";
+                                window.location.href ="{% url 'order_successful' %}";
 
                                 console.log("Order placed successfully!");
                             },

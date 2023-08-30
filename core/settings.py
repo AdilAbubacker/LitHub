@@ -52,6 +52,13 @@ INSTALLED_APPS = [
     'store',
     'users',
     'orders',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.facebook',
+
 ]
 
 MIDDLEWARE = [
@@ -77,6 +84,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -162,3 +170,10 @@ EMAIL_PORT = 587
 
 RAZORPAY_KEY_ID = 'rzp_test_QSA3aNMp4q8P9N'
 RAZORPAY_KEY_SECRET = 'JimppzREr53PEFh1B25nuJkL'
+
+# AUTHENTICATION_BACKENDS = [
+#     'django.contrib.auth.backends.ModelBackend',
+#     'allauth.account.auth_backends.AuthenticationBackend',
+# ]
+
+SITE_ID = 1

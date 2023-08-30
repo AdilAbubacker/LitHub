@@ -71,21 +71,21 @@
                     <div class="col-md-6">
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
                             <li class="list-inline-item">
-                                <a class="h3 text-dark text-decoration-none mr-3" href="{% url 'product_list' 0 'Category' %}">All</a>
+                                <a class="h3 text-dark text-decoration-none mr-3" href="#">{{ heading }}</a>
                             </li>
                         </ul>
                     </div>
                     <div class="col-md-6 pb-4">
                         <div class="d-flex">
                             <select id="sortDropdown" class="form-control">
-                                <option selected disabled>Default</option>
-                                <option value="/atoz">A to Z</option>
-                                <option value="/popular">Popular</option>
-                                <option value="/discount">Discount</option>
-                                <option value="/pricelth">Price: Low to High</option>
-                                <option value="/pricehtl">Price: High to Low</option>
-                                <option value="/newest">Newest</option>
-                                <option value="/oldest">Oldest</option>
+                                <option selected disabled>{{ sort }}</option>
+                                <option value="atoz">A to Z</option>
+                                <option value="popular">Popular</option>
+                                <option value="discount">Discount</option>
+                                <option value="pricelth">Price: Low to High</option>
+                                <option value="pricehtl">Price: High to Low</option>
+                                <option value="newest">Newest</option>
+                                <option value="oldest">Oldest</option>
                             </select>
                         </div>
                     </div>
@@ -128,7 +128,7 @@
 <!--                                    </li>-->
 <!--                                </ul>-->
                                 {% if book.offer_price %}
-                                <h6 class="text-center mt-2">₹{{ book.offer_price }}  <span class="text-muted ml-2"><del>  ₹{{ book.price }}</del> </span><span class="text-success" style="font-weight: 500;">({{ book.calculate_offer_percentage|floatformat:0 }}% off)</span></h6>
+                                <h6 class="text-center mt-2">₹{{ book.offer_price }}  <span class="text-muted ml-2"><del>  ₹{{ book.price }}</del> </span><span class="text-success" style="font-weight: 500;">({{ book.offer_percentage|floatformat:0 }}% off)</span></h6>
                                 {% else %}
                                 <h6 class="text-center mt-2">₹{{ book.price }}</h6>
                                 {% endif %}
@@ -140,7 +140,9 @@
                     {% endfor %}
                    {% else %}
                     {% for book in books %}
-                    <div class="col-md-4 col-6">
+                    <div class="col-md-4 col
+
+                    -6">
                         <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0 ">
                                 <img class="card-img rounded-0 img-fluid" style="width: 280px; height: 380px;" src="{{ book.cover_image.url }}">
@@ -175,7 +177,7 @@
 <!--                                    </li>-->
 <!--                                </ul>-->
                                 {% if book.bookvariant_set.first.offer_price %}
-                                <h6 class="text-center">₹{{ book.bookvariant_set.first.offer_price }}  <span class="text-muted ml-2"><del>  ₹{{ book.bookvariant_set.first.price }}</del> </span><span class="text-success" style="font-weight: 500;"> ({{ book.bookvariant_set.first.calculate_offer_percentage|floatformat:0 }}% off)</span></h6>
+                                <h6 class="text-center">₹{{ book.bookvariant_set.first.offer_price }}  <span class="text-muted ml-2"><del>  ₹{{ book.bookvariant_set.first.price }}</del> </span><span class="text-success" style="font-weight: 500;"> ({{ book.bookvariant_set.first.offer_percentage|floatformat:0 }}% off)</span></h6>
                                 {% else %}
                                 <h6 class="text-center">₹{{ book.bookvariant_set.first.price }}</h6>
                                 {% endif %}
@@ -324,22 +326,35 @@
         </div>
     </section>
     <!--End Brands-->
-  <script>
-document.getElementById("sortDropdown").addEventListener("change", function() {
-    var selectedOption = this.options[this.selectedIndex];
-    var selectedValue = selectedOption.value;
 
-    var currentURL = window.location.href;
 
-    // Remove existing sort parameter if any
-    currentURL = currentURL.replace(/(\/atoz|\/pricelth|\/newest|\/oldest|\/pricehtl|\/popular|\/discount)/, '');
+<script>
+    const sortDropdown = document.getElementById('sortDropdown');
 
-    // Append the selected value to the current URL
-    var targetUrl = currentURL + selectedValue;
-
-    window.location.href = targetUrl;
-});
+    sortDropdown.addEventListener('change', function () {
+        const selectedOption = this.options[this.selectedIndex];
+        if (selectedOption.value !== '') {
+            const newUrl = window.location.origin + window.location.pathname + '?sort=' + selectedOption.value;
+            window.location.href = newUrl; // Navigate to the new URL
+        }
+    });
 </script>
+<!--  <script>-->
+<!--document.getElementById("sortDropdown").addEventListener("change", function() {-->
+<!--    var selectedOption = this.options[this.selectedIndex];-->
+<!--    var selectedValue = selectedOption.value;-->
+
+<!--    var currentURL = window.location.href;-->
+
+<!--    // Remove existing sort parameter if any-->
+<!--    currentURL = currentURL.replace(/(\/atoz|\/pricelth|\/newest|\/oldest|\/pricehtl|\/popular|\/discount)/, '');-->
+
+<!--    // Append the selected value to the current URL-->
+<!--    var targetUrl = currentURL + selectedValue;-->
+
+<!--    window.location.href = targetUrl;-->
+<!--});-->
+<!--</script>-->
 
 
 

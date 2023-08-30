@@ -161,7 +161,7 @@
                 {% if variant.offer_price %}
 <!--                                <h4 class="">My Wishlist <span style="font-weight: 300;">{{ wishlist_count }} items</span></h4>-->
 
-                <h3 class="font-weight-semi-bold mb-4">₹{{ variant.offer_price }} <span class="text-muted" style="font-weight: 400; font-size: 23px;"><del> ₹{{ variant.price }}</del> </span><span class="text-muted" style="font-weight: 500;">({{ variant.calculate_offer_percentage|floatformat:0 }}% off)</span></h3>
+                <h3 class="font-weight-semi-bold mb-4">₹{{ variant.offer_price }} <span class="text-muted" style="font-weight: 400; font-size: 23px;"><del> ₹{{ variant.price }}</del> </span><span class="text-muted" style="font-weight: 500;">({{ variant.offer_percentage|floatformat:0 }}% off)</span></h3>
                 {% else %}
                 <h3 class="font-weight-semi-bold mb-4">₹{{ variant.price }}</h3>
                 {% endif %}
@@ -179,17 +179,14 @@
                         {% endfor %}
                     </select>
                 </div>
-
                 <div class="format-options">
                     <p class="format-label mb-1 mt-4">Format:</p>
                     <form>
                         <div class="variant-options">
                             {% for variants in cover_type_variants %}
                             <a href="{% url 'product_details' variants.slug %}" class="variant-box-outer">
-                                <button type="button" class="variant-box btn btn-outline-success m-2 {% if variants.id == variant.id %}active{% endif %}">
+                                <button type="button" class="variant-box cbtn btn-outline-success m-2 {% if variants.id == variant.id %}active{% endif %}">
                                     <span class="variant-name">{{ variants.cover_type }}</span>
-
-
                                     <span class="variant-price">₹{{ variants.price }}</span>
                                 </button>
                             </a>

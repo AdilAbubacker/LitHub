@@ -2,10 +2,14 @@
 {% load static %}
 
 {% block style %}
+
     <link href="{% static 'store/css/user_profilee.css' %}" rel="stylesheet">
+
 <!--    <link href="{% static 'adminpanel/css/style.css' %}" rel="stylesheet">-->
 
 {% endblock %}
+{% block new_style %}{% endblock %}
+
 
 {% block content %}
 
@@ -37,6 +41,7 @@
                     <a href="{% url 'address_management' %}" class="nav-item nav-link"><i class="fa fa-home me-2"></i>Address Management</a>
                     <a href="{% url 'my_orders' %}" class="nav-item nav-link"><i class="fa fa-box me-2"></i>My Orders</a>
                     <a href="{% url 'my_wishlist' %}" class="nav-item nav-link"><i class="fa fa-heart me-2"></i>My Wishlist</a>
+                    <a href="{% url 'my_wallet' %}" class="nav-item nav-link"><i class="fa fa-wallet me-2"></i>My Wallet</a>
               </div>
 
             </div>

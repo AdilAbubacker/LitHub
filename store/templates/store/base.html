@@ -441,34 +441,33 @@
     }
 </script>
 
-    <script>
-    function confirmAction(actionUrl, actionText) {
-        Swal.fire({
-            title: 'Remove from cart?',
-            text: `Are you sure you want to move this item from your cart?`,
-            icon: 'warning',
-            showCancelButton: true,
-            cancelButtonColor: '#d33',
-            confirmButtonColor: '#3085d6',
-            confirmButtonText: 'Remove ',
-        }).then((result) => {
-            if (result.isConfirmed) {
-                // Display the success message after a brief delay
-                Swal.fire({
-                    title: 'Removed!',
-                    text: 'The item has been removed.',
-                    icon: 'success',
-                    timer: 900, // Set the timer to control how long the success message is displayed (in milliseconds)
-                    timerProgressBar: true,
-                    showConfirmButton: false // Hide the "OK" button
-                }).then(() => {
-                    // Perform the action (e.g., delete) by redirecting to the action URL
-                    window.location.href = actionUrl;
-                });
-            }
-        });
-    }
-    </script>
+<script>
+function confirmAction(params) {
+    Swal.fire({
+        title: params.title,
+        text: params.text,
+        icon: 'warning',
+        showCancelButton: true,
+        cancelButtonColor: '#d33',
+        confirmButtonColor: '#3085d6',
+        confirmButtonText: params.confirmButtonText,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire({
+                title: params.successTitle,
+                text: params.successText,
+                icon: 'success',
+                timer: 900,
+                timerProgressBar: true,
+                showConfirmButton: false
+            }).then(() => {
+                window.location.href = params.actionUrl;
+            });
+        }
+    });
+}
+</script>
+
 
 
 

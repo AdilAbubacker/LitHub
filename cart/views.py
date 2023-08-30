@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.db.models import Sum, Count
 from django.shortcuts import render, redirect
 from cart.models import Cart, CartItem, Wishlist, WishlistItem
@@ -10,6 +11,7 @@ from user_profile.models import Address
 
 
 # Create your views here.
+@login_required(login_url='signin')
 def cart_summary(request):
     cart = Cart.objects.get(user=request.user)
     cart_items = cart.cartitem_set.all().order_by('variant')
@@ -45,6 +47,7 @@ def cart_summary(request):
     return render(request, 'cart/cart.html', context)
 
 
+@login_required(login_url='signin')
 def add_to_cart(request, variant_id):
     variant = BookVariant.objects.get(id=variant_id)
     user = request.user
@@ -75,6 +78,7 @@ def remove_cart_item(request, cart_item_id):
     return redirect('cart_summary')
 
 
+@login_required(login_url='signin')
 def wishlist_summary(request):
     wishlist, _ = Wishlist.objects.get_or_create(user=request.user)
     wishlist_items = wishlist.wishlistitem_set.all().order_by('variant')
@@ -92,6 +96,7 @@ def wishlist_summary(request):
     #     return render(request, 'cart/empty_wishlist.html')
 
 
+@login_required(login_url='signin')
 def add_to_wishlist(request, variant_id):
     variant = BookVariant.objects.get(id=variant_id)
     user = request.user

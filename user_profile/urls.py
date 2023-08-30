@@ -10,6 +10,6 @@ urlpatterns = [
     path('my_orders', views.my_orders, name='my_orders'),
     path('myorder_detail/<int:order_id>', views.myorder_detail, name='myorder_detail'),
     path('my_wishlist', views.my_wishlist, name='my_wishlist'),
-
+    path('my_wallet', views.my_wallet, name='my_wallet'),
 ]
 

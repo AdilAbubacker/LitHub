@@ -33,8 +33,6 @@ urlpatterns = [
     path('activate_coupon/<int:coupon_id>/<str:action>', views.activate_coupon, name='activate_coupon'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('sales_report', views.sales_report, name='sales_report'),
-    # path('get-sales-data/', views.get_sales_data, name='get_sales_data'),
-    # path('sales-chart/', views.sales_chart, name='sales_chart'),
-
+    path('initiate_refund/<int:order_id>', views.initiate_refund, name='initiate_refund'),
 ]
 

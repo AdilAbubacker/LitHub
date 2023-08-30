@@ -1,6 +1,6 @@
 from django.db.models import Sum, Count
 from django.shortcuts import render
-from cart.models import Wishlist, CartItem, WishlistItem
+from cart.models import Wishlist, CartItem, WishlistItem, Wallet
 from orders.models import Order
 from user_profile.models import Address
 
@@ -123,7 +123,11 @@ def my_orders(request):
 def myorder_detail(request, order_id):
     order = Order.objects.get(id=order_id)
     order_items = order.orderitem_set.all()
-    return render(request, 'user_profile/myorder_detail.html', {'order': order, 'order_items': order_items})
+    context = {
+        'order': order,
+        'order_items': order_items,
+    }
+    return render(request, 'user_profile/myorder_detail1.html', context)
 
 
 def my_wishlist(request):
@@ -140,3 +144,19 @@ def my_wishlist(request):
         'wishlist_items': wishlist_items
     }
     return render(request, 'user_profile/profile_wishlist.html', context)
+
+
+def my_wallet(request):
+    wallet = Wallet.objects.get(user=request.user.id)
+    balance = wallet.balance
+    cart_count = CartItem.objects.filter(
+        cart__user=request.user.id).aggregate(Sum('quantity'))['quantity__sum']
+    wishlist_count = WishlistItem.objects.filter(
+        wishlist__user=request.user.id).aggregate(Count('variant'))['variant__count']
+
+    context = {
+        'cart_count': cart_count,
+        'wishlist_count': wishlist_count,
+        'balance': balance
+    }
+    return render(request, 'user_profile/wallet.html', context)

@@ -51,7 +51,14 @@
                             <!-- Example delete link using the confirmAction() function -->
 <!--                            <a href="#" onclick="confirmAction('{% url 'remove_cart_item' item.id %}', 'delete this item')" class="btn btn-danger">Delete</a>-->
 
-                            <td class="align-middle"> <a href="#" onclick="confirmAction('{% url 'remove_cart_item' item.id %}', 'remove this item')" class="btn btn-sm btn-success"><i class="fa fa-times"></i></a></td>
+                            <td class="align-middle"> <a href="#" onclick="confirmAction({
+    title: 'Remove from cart?',
+    text: 'Are you sure you want to remove this item from your cart?',
+    actionUrl: '{% url 'remove_cart_item' item.id %}',
+    confirmButtonText: 'Remove',
+    successTitle: 'Removed!',
+    successText: 'The item has been removed.'
+})" class="btn btn-sm btn-success"><i class="fa fa-times"></i></a></td>
                         </tr>
                         {% endfor %}
                     </tbody>

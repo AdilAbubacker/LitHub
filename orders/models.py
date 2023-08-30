@@ -7,20 +7,25 @@ from user_profile.models import Address
 class Order(models.Model):
     PAYMENT_STATUS_CHOICE = [
         ('PENDING', 'Pending'),
+        ('PAYMENT FAILED', 'Payment failed'),
+        ('CANCELLED', 'Cancelled'),
         ('PAID', 'Paid'),
-        ('REFUND', 'refund'),
-        ('CASH_ON_DELIVERY', 'Cash on Delivery')
+        ('REFUNDED', 'Refunded'),
+        ('COD', 'Cash on Delivery')
     ]
     PAYMENT_METHOD_CHOICE = [
-        ('PREPAID', 'Prepaid'),
-        ('CASH_ON_DELIVERY', 'Cash on Delivery')
+        ('UPI', 'UPI'),
+        ('COD', 'Cash on Delivery')
     ]
-    ORDERED_STATUS_CHOICE = [
-        ('CANCELLED', 'Cancelled'),
-        ('DELIVERED', 'Delivered'),
-        ('OUT FOR DELIVERY', 'Out for Delivery'),
+    ORDER_STATUS_CHOICE = [
+        ('ORDER CONFIRMED', 'Order Confirmed'),
         ('SHIPPED', 'Shipped'),
+        ('OUT FOR DELIVERY', 'Out for Delivery'),
+        ('DELIVERED', 'Delivered'),
+        ('CANCELLED', 'Cancelled'),
+        ('RETURN REQUESTED', 'Return Requested'),
         ('RETURNED', 'Returned'),
+        ('REFUNDED', 'Refunded'),
         ('PROCESSING', 'Processing')
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -28,7 +33,7 @@ class Order(models.Model):
     order_date = models.DateTimeField(auto_now_add=True)
     payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICE, default='PENDING')
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICE)
-    order_status = models.CharField(max_length=20, choices=ORDERED_STATUS_CHOICE)
+    order_status = models.CharField(max_length=20, choices=ORDER_STATUS_CHOICE)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     razor_pay_payment_id = models.CharField(max_length=100)
     razor_pay_payment_signature = models.CharField(max_length=200)
