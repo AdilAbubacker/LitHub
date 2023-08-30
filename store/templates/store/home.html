@@ -121,7 +121,7 @@
             <div class="row">
               {% for category in categories %}
               <div class="col-sm-6 col-md-6 col-lg-3 mb-4 mb-5" data-aos="fade" data-aos-delay="">
-                <a class="block-2-item" href="{% url 'product_list' 'Category' category.slug None %}" width="200" height="200">
+                <a class="block-2-item" href="{% url 'product_list' 'Category' category.slug %}" width="200" height="200">
                   <figure class="image h-auto p-0 m-0" id="category-image-container">
                     <img src="{{ category.image.url }}" alt="" class="img-fluid" width="230" height="230">
                     <div class="text" id="category-text">
