@@ -82,9 +82,9 @@
 
 
 
-                            <div class="addressList-base-title">Select Delivery Address</div>
+                            <div class="addressList-base-title">Delivery Address</div>
                             <div data-action="add" class="addressList-base-addAddressButton">
-                              <div class="">ADD NEW ADDRESS</div>
+<!--                              <div class="">ADD NEW ADDRESS</div>-->
                             </div>
                           </div>
                           <div class="addressList-base-defaultTitle">DEFAULT ADDRESS</div>
@@ -106,42 +106,40 @@
                                   <span>Mobile: </span><span>8281084824</span>
                                 </div>
                               </div>
-                              <div class="addressBlocks-base-btns">
-                                <button class="addressBlocks-base-edit" data-action="showModal">Edit</button>
-                                <button class="addressBlocks-base-remove" data-action="remove">Remove</button>
-                              </div>
+<!--                              <div class="addressBlocks-base-btns">-->
+<!--                                <button class="addressBlocks-base-edit" data-action="showModal">Edit</button>-->
+<!--                                <button class="addressBlocks-base-remove" data-action="remove">Remove</button>-->
+<!--                              </div>-->
                             </div>
                           </div>
-                          <div class="addressList-base-otherTitle">OTHER ADDRESS</div>
-                            {% for address in addresses %}
-                          <div class="addressBlocks-base-block" id="428717921" data-action="select">
+<!--                          <div class="addressList-base-otherTitle">CURRENT ADDRESS</div>-->
+<!--                          <div class="addressBlocks-base-block" id="428717921" data-action="select">-->
 
-                            <div class="addressBlocks-base-innerBlock">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="addressBlocks-base-radioIcon">
-                                <!-- Your SVG icon here -->
-                              </svg>
-                              <div>
-                                <div>
+<!--                            <div class="addressBlocks-base-innerBlock">-->
+<!--                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" class="addressBlocks-base-radioIcon">-->
+<!--                                &lt;!&ndash; Your SVG icon here &ndash;&gt;-->
+<!--                              </svg>-->
+<!--                              <div>-->
+<!--                                <div>-->
 
-                                  <div class="addressDetails-base-desktopAddressTitle">
-                                    <div class="addressDetails-base-name">{{ address.name }}</div>
-                                    <div class="addressDetails-base-addressType">HOME</div>
-                                  </div>
-                                  <div class="addressDetails-base-addressField addressBlocks-base-addressDetail">{{ address.address }}, {{ address.landmark }}</div>
-                                  <span>{{ address.city }}, {{ address.district }}, {{ address.state }} - </span><span>{{ address.pincode }}</span>
-                                </div>
-                                <div class="addressDetails-base-mobile">
-                                  <span>Mobile: </span><span>{{ address.mobile }}</span>
-                                </div>
+<!--                                  <div class="addressDetails-base-desktopAddressTitle">-->
+<!--                                    <div class="addressDetails-base-name">{{ address.name }}</div>-->
+<!--                                    <div class="addressDetails-base-addressType">HOME</div>-->
+<!--                                  </div>-->
+<!--                                  <div class="addressDetails-base-addressField addressBlocks-base-addressDetail">{{ address.address }}, {{ address.landmark }}</div>-->
+<!--                                  <span>{{ address.city }}, {{ address.district }}, {{ address.state }} - </span><span>{{ address.pincode }}</span>-->
+<!--                                </div>-->
+<!--                                <div class="addressDetails-base-mobile">-->
+<!--                                  <span>Mobile: </span><span>{{ address.mobile }}</span>-->
+<!--                                </div>-->
 
 
-                              </div>
-                            </div>
-                          </div>
-                            {% endfor %}
-                          <div data-action="add" class="addressList-base-addBlock mb-5">
-                            <div class="addressList-base-label">+ Add New Address</div>
-                          </div>
+<!--                              </div>-->
+<!--                            </div>-->
+<!--                          </div>-->
+<!--                          <div data-action="add" class="addressList-base-addBlock mb-5">-->
+<!--                            <div class="addressList-base-label">+ Add New Address</div>-->
+<!--                          </div>-->
                         </div>
               </div>
                 </div>
