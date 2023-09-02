@@ -296,19 +296,14 @@ def disable_variant(request, variant_id, book_id):
 
 
 def add_variant(request, book_id):
-    # if request.method == 'POST':
-    #     name = request.POST['name']
-    #     title = request.POST['title']
-    #     category_id = request.POST.get('categorySelect')
-    #     category = get_object_or_404(Category, pk=category_id)
-    #     author_id = request.POST.get('authorSelect')
-    #     author = get_object_or_404(Author, pk=author_id)
-    #     publisher_id = request.POST.get('publisherSelect')
-    #     publisher = get_object_or_404(Publisher, pk=publisher_id)
-    #     no_of_pages = request.POST.get('pagenum')
-    #     description = request.POST.get('description', '')
-    #     image = request.FILES.get('image')
-    #
+    if request.method == 'POST':
+        book = Book.objects.get(id=book_id)
+        language_id = request.POST.get('languageSelect')
+        cover_type_id = request.POST.get('covertypeSelect')
+        price = request.POST.get('price')
+        stock = request.POST.get('stock')
+        image = request.FILES.get('image')
+        
     #     book = Book(name=name, title=title, category=category, author=author, publisher=publisher,
     #                 no_of_pages=no_of_pages, description=description, cover_image=image)
     #     book.save()

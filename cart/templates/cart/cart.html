@@ -36,6 +36,7 @@
                                 </div>
                             </td>
                             <td class="align-middle">₹{{ item.variant.price }}</td>
+                            {% if item.variant.stock > 0 %}
                             <td class="align-middle">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                         <a href="{% url 'update_quantity' item.id 0 %}" class="btn btn-sm btn-success btn-minus" >
@@ -47,6 +48,10 @@
                                         </a>
                                 </div>
                             </td>
+                            {% else %}
+                            <td class="align-middle text-danger">Out of Stock</td>
+
+                            {% endif %}
                             <td class="align-middle">₹{{ item.price }}</td>
                             <!-- Example delete link using the confirmAction() function -->
 <!--                            <a href="#" onclick="confirmAction('{% url 'remove_cart_item' item.id %}', 'delete this item')" class="btn btn-danger">Delete</a>-->
@@ -104,7 +109,14 @@
                             <h5 class="font-weight-bold">Total</h5>
                             <h5 class="font-weight-bold">₹{{ total_amount }}</h5>
                         </div>
+                        {% if insufficient_stock %}
+                        <a href="#" class="btn btn-block btn-success my-3 py-3">Proceed To Checkout</a>
+                        <div class="alert alert-danger" role="alert">
+                             Some of the products out of stock at the moment. Please remove them from cart or try again later.
+                        </div>
+                        {% else %}
                         <a href="{% url 'checkout' %}" class="btn btn-block btn-success my-3 py-3">Proceed To Checkout</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>

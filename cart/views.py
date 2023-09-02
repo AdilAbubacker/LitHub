@@ -16,7 +16,12 @@ def cart_summary(request):
     cart = Cart.objects.get(user=request.user)
     cart_items = cart.cartitem_set.all().order_by('variant')
     total_price = cart.cartitem_set.aggregate(total=Sum('price'))['total'] if cart else 0
+    wishlist_count = WishlistItem.objects.filter(wishlist__user=request.user.id).aggregate(Count('variant'))['variant__count']
     cart_count = (CartItem.objects.filter(cart__user=request.user.id).aggregate(Sum('quantity'))['quantity__sum'])
+    insufficient_stock = None
+    for item in cart_items:
+        if item.variant.stock <= 0:
+            insufficient_stock = 1
 
     coupon_code = request.session.get('coupon_code')
     if coupon_code:
@@ -42,7 +47,9 @@ def cart_summary(request):
         'coupon_discount': coupon_discount,
         'shipping_charge': shipping_charge,
         'total_amount': total_amount,
-        'cart_count': cart_count
+        'cart_count': cart_count,
+        'wishlist_count': wishlist_count,
+        'insufficient_stock': insufficient_stock
     }
     return render(request, 'cart/cart.html', context)
 
