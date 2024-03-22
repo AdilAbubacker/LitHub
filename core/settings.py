@@ -52,12 +52,12 @@ INSTALLED_APPS = [
     'store',
     'users',
     'orders',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',
-    'allauth.socialaccount.providers.github',
-    'allauth.socialaccount.providers.facebook',
+    # 'allauth',
+    # 'allauth.account',
+    # 'allauth.socialaccount',
+    # 'allauth.socialaccount.providers.google',
+    # 'allauth.socialaccount.providers.github',
+    # 'allauth.socialaccount.providers.facebook',
 
 ]
 
